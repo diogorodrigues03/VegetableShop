@@ -5,25 +5,18 @@ namespace VegetableShop.Domain.Entities;
 /// </summary>
 public class Receipt
 {
-    private readonly List<CartItem> _items;
-    private readonly List<AppliedOffer> _appliedOffers;
+    private readonly List<CartItem> _items = [];
+    private readonly List<AppliedOffer> _appliedOffers = [];
     
+    public IReadOnlyList<CartItem> Items => _items.AsReadOnly();
+    public IReadOnlyList<AppliedOffer> AppliedOffers => _appliedOffers.AsReadOnly();
     public decimal SubTotal { get; private set; }
     public decimal TotalDiscount { get; private set; }
     public decimal TotalPrice { get; private set; }
 
-    public Receipt()
-    {
-        _items = new List<CartItem>();
-        _appliedOffers = new List<AppliedOffer>();
-    }
-
     public void AddItem(CartItem item)
     {
-        if (item is null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         _items.Add(item);
         RecalculateSubTotal();
