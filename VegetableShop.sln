@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VegetableShop.Console", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{845A9CC3-567C-47AC-A434-BDF65E2D9FE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VegetableShop.UnitTests", "tests\VegetableShop.UnitTests\VegetableShop.UnitTests.csproj", "{816B4A5B-E7BB-4DDC-B01E-903A16FC0196}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VegetableShop.Tests", "tests\VegetableShop.Tests\VegetableShop.Tests.csproj", "{816B4A5B-E7BB-4DDC-B01E-903A16FC0196}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
