@@ -1,3 +1,5 @@
+using VegetableShop.Domain.Utils;
+
 namespace VegetableShop.Domain.Entities;
 
 /// <summary>
@@ -24,5 +26,5 @@ public class AppliedOffer
         DiscountAmount = discountAmount;
     }
 
-public override string ToString() => $"{Description} - €{DiscountAmount.ToString("F2", System.Globalization.CultureInfo.CurrentCulture)} discount";
+public override string ToString() => $"{Description} - €{FormattingUtils.FormatCurrency(DiscountAmount)} discount";
 }

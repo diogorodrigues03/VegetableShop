@@ -1,3 +1,5 @@
+using VegetableShop.Domain.Exceptions;
+
 namespace VegetableShop.Domain.Entities;
 
 /// <summary>
@@ -5,13 +7,8 @@ namespace VegetableShop.Domain.Entities;
 /// </summary>
 public class ShoppingCart
 {
-    private readonly Dictionary<Product, int> _items;
+    private readonly Dictionary<Product, int> _items = new();
     public IEnumerable<CartItem> Items => _items.Select(kvp => new CartItem(kvp.Key, kvp.Value));
-
-    public ShoppingCart()
-    {
-        _items = new Dictionary<Product, int>();
-    }
 
     public void AddProduct(Product product, int quantity)
     {
@@ -19,7 +16,7 @@ public class ShoppingCart
         
         if (quantity <= 0)
         {
-            throw new ArgumentException("Quantity must be greater than zero.", nameof(quantity));
+            throw new InvalidQuantityException(product.Name, quantity.ToString());
         }
 
         if (!_items.TryAdd(product, quantity))

@@ -12,7 +12,7 @@ public interface IPromotionalOffer
     /// <summary>
     /// Calculates the discount for the specified item.
     /// </summary>
-    /// <param name="item">The line item to evaluate.</param>
+    /// <param name="item">The item to evaluate.</param>
     /// <returns>An AppliedOffer if applicable, otherwise null.</returns>
     AppliedOffer? CalculateDiscount(CartItem item);
 }

@@ -1,3 +1,6 @@
+using VegetableShop.Domain.Exceptions;
+using VegetableShop.Domain.Utils;
+
 namespace VegetableShop.Domain.Entities;
 
 /// <summary>
@@ -5,8 +8,8 @@ namespace VegetableShop.Domain.Entities;
 /// </summary>
 public class CartItem
 {
-   public Product Product { get; private set; }
-   public int Quantity { get; private set; }
+   public Product Product { get; }
+   public int Quantity { get; }
    public decimal TotalPrice => Product.Price * Quantity;
 
    public CartItem(Product product, int quantity)
@@ -15,11 +18,11 @@ public class CartItem
 
       if (quantity <= 0)
       {
-         throw new ArgumentException("Quantity must be greater than zero.", nameof(quantity));
+         throw new InvalidQuantityException(product.Name, quantity.ToString());
       }
 
       Quantity = quantity;
    }
 
-   public override string ToString() => $"{Product.Name} x{Quantity} - €{TotalPrice.ToString("F2", System.Globalization.CultureInfo.CurrentCulture)}";
+   public override string ToString() => $"{Product.Name} x{Quantity} - €{FormattingUtils.FormatCurrency(TotalPrice)}";
 }

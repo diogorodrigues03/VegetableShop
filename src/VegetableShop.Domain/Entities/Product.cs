@@ -1,3 +1,5 @@
+using VegetableShop.Domain.Utils;
+
 namespace VegetableShop.Domain.Entities;
 
 /// <summary>
@@ -44,5 +46,5 @@ public class Product
         return Name.ToLowerInvariant().GetHashCode();
     }
 
-    public override string ToString() => $"{Name} - €{Price.ToString("F2", System.Globalization.CultureInfo.CurrentCulture)}";
+    public override string ToString() => $"{Name} - €{FormattingUtils.FormatCurrency(Price)}";
 }
