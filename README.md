@@ -60,7 +60,7 @@ dotnet run
 You can override the input files and save the receipt using arguments:
 
 ```bash
-dotnet run -- [path-to-products] [path-to-purchase] [--save]
+dotnet run [path-to-products] [path-to-purchase] [--save]
 # From the src/VegetableShop.Console directory
 ```
 
@@ -70,7 +70,7 @@ dotnet run -- [path-to-products] [path-to-purchase] [--save]
 
 **Example:**
 ```bash
-dotnet run -- data/my_products.csv data/my_list.csv --save
+dotnet run TestData/products.csv TestData/purchase.csv --save
 # From the src/VegetableShop.Console directory
 ```
 
