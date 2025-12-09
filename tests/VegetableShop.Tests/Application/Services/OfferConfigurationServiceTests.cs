@@ -33,7 +33,7 @@ namespace VegetableShop.Tests.Application.Services
             var products = new List<Product>();
             ShoppingCart? cart = null;
             
-            Assert.Throws<ArgumentNullException>(() => service.GetOffers(cart, products));
+            Assert.Throws<ArgumentNullException>(() => service.GetOffers(cart!, products));
         }
         
         [Fact]
@@ -43,7 +43,7 @@ namespace VegetableShop.Tests.Application.Services
             List<Product>? products = null;
             var cart = new ShoppingCart();
             
-            Assert.Throws<ArgumentNullException>(() => service.GetOffers(cart, products));
+            Assert.Throws<ArgumentNullException>(() => service.GetOffers(cart, products!));
         }
     }
 }
