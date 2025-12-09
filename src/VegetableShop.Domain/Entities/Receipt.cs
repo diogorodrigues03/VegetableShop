@@ -14,11 +14,11 @@ public class Receipt
     public decimal TotalDiscount { get; private set; }
     public decimal TotalPrice { get; private set; }
 
-    public void AddItem(CartItem item)
+    public void AddItem(CartItem newItem)
     {
-        ArgumentNullException.ThrowIfNull(item);
+        ArgumentNullException.ThrowIfNull(newItem);
 
-        _items.Add(item);
+        _items.Add(newItem);
         RecalculateSubTotal();
     }
 
@@ -61,6 +61,7 @@ public class Receipt
     public void RecalculateSubTotal()
     {
         SubTotal = _items.Sum(item => item.TotalPrice);
+        RecalculateTotals();
     }
 
     public void RecalculateTotals()

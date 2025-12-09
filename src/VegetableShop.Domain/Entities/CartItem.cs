@@ -21,5 +21,5 @@ public class CartItem
       Quantity = quantity;
    }
 
-   public override string ToString() => $"{Product.Name} x{Quantity} - {TotalPrice:F2}";
+   public override string ToString() => $"{Product.Name} x{Quantity} - €{TotalPrice.ToString("F2", System.Globalization.CultureInfo.CurrentCulture)}";
 }

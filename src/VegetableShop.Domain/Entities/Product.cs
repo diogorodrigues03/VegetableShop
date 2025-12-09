@@ -5,8 +5,8 @@ namespace VegetableShop.Domain.Entities;
 /// </summary>
 public class Product
 {
-    public string Name { get; private set; }
-    public decimal Price { get; private set; }
+    public string Name { get; }
+    public decimal Price { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Product"/> class.
@@ -29,6 +29,20 @@ public class Product
         Name = name.Trim();
         Price = price;
     }
-    
-    public override string ToString() => $"{Name} - €{Price:F2}";
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj is null || GetType() != obj.GetType()) return false;
+        
+        var other = (Product)obj;
+        return string.Equals(Name, other.Name, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public override int GetHashCode()
+    {
+        return Name.ToLowerInvariant().GetHashCode();
+    }
+
+    public override string ToString() => $"{Name} - €{Price.ToString("F2", System.Globalization.CultureInfo.CurrentCulture)}";
 }
