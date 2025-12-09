@@ -57,6 +57,6 @@ public class CartItemTests
             var cartItem = new CartItem(product, 3);
             var result = cartItem.ToString();
 
-            Assert.Equal("Tomato x3 - €2.25", result);
+            Assert.Equal("Tomato x3 - €2,25", result);
         }
 }

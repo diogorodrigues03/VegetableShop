@@ -10,7 +10,8 @@ namespace VegetableShop.Tests.Infrastructure.Parsers
 
         public CsvProductParserTests()
         {
-            _testDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestData");
+            var projectRoot = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.FullName;
+            _testDataPath = Path.Combine(projectRoot ?? string.Empty, "TestData");
             Directory.CreateDirectory(_testDataPath);
         }
 
@@ -57,6 +58,9 @@ namespace VegetableShop.Tests.Infrastructure.Parsers
             var products = parser.ParseProducts(filePath);
 
             Assert.Equal(2, products.Count);
+            Assert.Contains(products, p => p.Name == "Carrot");
+            Assert.Contains(products, p => p.Name == "Tomato");
+            Assert.DoesNotContain(products, p => p.Name == "");
         }
     }
 }

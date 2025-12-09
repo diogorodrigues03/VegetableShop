@@ -22,7 +22,7 @@ public class CsvProductParser
         var products = new List<Product>();
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            HasHeaderRecord = false,
+            HasHeaderRecord = true,
             TrimOptions = TrimOptions.Trim
         };
 

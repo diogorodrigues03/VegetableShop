@@ -46,6 +46,6 @@ public class AppliedOfferTests
         var offer = new AppliedOffer("Buy 2 Get 1 Free", 0.75m);
         var result = offer.ToString();
 
-        Assert.Equal("Buy 2 Get 1 Free - €0.75 discount", result);
+        Assert.Equal("Buy 2 Get 1 Free - €0,75 discount", result);
     }
 }

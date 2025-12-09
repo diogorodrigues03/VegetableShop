@@ -90,6 +90,6 @@ public class ProductTests
         var product = new Product("Tomato", 0.75m);
         var result = product.ToString();
         
-        Assert.Equal("Tomato - €0.75", result);
+        Assert.Equal("Tomato - €0,75", result);
     }
 }

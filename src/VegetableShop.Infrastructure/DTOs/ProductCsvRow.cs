@@ -1,3 +1,5 @@
+using CsvHelper.Configuration.Attributes;
+
 namespace VegetableShop.Infrastructure.DTOs;
 
 /// <summary>
@@ -5,6 +7,8 @@ namespace VegetableShop.Infrastructure.DTOs;
 /// </summary>
 public class ProductCsvRow
 {
+    [Name("PRODUCT")]
     public string Product { get; set; } = string.Empty;
+    [Name("PRICE")]
     public string Price { get; set; } = string.Empty;
 }

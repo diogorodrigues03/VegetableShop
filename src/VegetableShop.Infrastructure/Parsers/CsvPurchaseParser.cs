@@ -20,7 +20,7 @@ public class CsvPurchaseParser
         var purchases = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            HasHeaderRecord = false,
+            HasHeaderRecord = true,
             TrimOptions = TrimOptions.Trim
         };
 
