@@ -15,10 +15,13 @@ namespace VegetableShop.Application.Services
         /// </summary>
         public IEnumerable<IPromotionalOffer> GetOffers(ShoppingCart cart, IEnumerable<Product> products)
         {
+            // Safety measure for processing offers only when we have non-null cart and products
             ArgumentNullException.ThrowIfNull(cart);
             ArgumentNullException.ThrowIfNull(products);
 
             // These can be adjusted as needed
+            // If the system was using a database we would change the implementation
+            // to retrieve offers from the database instead of hardcoding them here
             var offers = new List<IPromotionalOffer>
             {
                 // Offer 1: Buy 3 Aubergines and pay for 2
