@@ -51,7 +51,8 @@ You can run the application directly from the CLI. By default, it looks for data
 
 ```bash
 # Run with default settings
-dotnet run --project src/VegetableShop.Console
+cd src/VegetableShop.Console
+dotnet run
 ```
 
 ### Custom Arguments
@@ -59,7 +60,8 @@ dotnet run --project src/VegetableShop.Console
 You can override the input files and save the receipt using arguments:
 
 ```bash
-dotnet run --project src/VegetableShop.Console -- [path-to-products] [path-to-purchase] [--save]
+dotnet run -- [path-to-products] [path-to-purchase] [--save]
+# From the src/VegetableShop.Console directory
 ```
 
 *   **Argument 1**: Path to `products.csv` (optional).
@@ -68,7 +70,8 @@ dotnet run --project src/VegetableShop.Console -- [path-to-products] [path-to-pu
 
 **Example:**
 ```bash
-dotnet run --project src/VegetableShop.Console -- data/my_products.csv data/my_list.csv --save
+dotnet run -- data/my_products.csv data/my_list.csv --save
+# From the src/VegetableShop.Console directory
 ```
 
 ## 📂 File Formats
