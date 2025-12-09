@@ -35,9 +35,20 @@ namespace VegetableShop.Console.Services
             {
                 DisplayHeader();
 
-                string productsFile = args.Length > 0 ? args[0] : _fileSettings.ProductsFile;
-                string purchaseFile = args.Length > 1 ? args[1] : _fileSettings.PurchaseFile;
+                string productsFile;
+                string purchaseFile;
                 bool saveToFile = args.Contains("--save");
+                if (args.Length == 1 && saveToFile)
+                {
+                    productsFile = _fileSettings.ProductsFile;
+                    purchaseFile = _fileSettings.PurchaseFile;
+                }
+                else
+                {
+                    productsFile = args.Length > 0 ? args[0] : _fileSettings.ProductsFile;
+                    purchaseFile = args.Length > 1 ? args[1] : _fileSettings.PurchaseFile;
+                }
+                
                 string outputFile = GenerateTimestampedOutputFileName();
 
                 // Update runtime configuration with potentially overridden paths
