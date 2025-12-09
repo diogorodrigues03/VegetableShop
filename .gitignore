@@ -41,3 +41,7 @@ project.assets.json
 project.nuget.cache
 *.nuget.props
 *.nuget.targets
+
+// Ignore logs and receipts folders
+logs/
+Receipts/
