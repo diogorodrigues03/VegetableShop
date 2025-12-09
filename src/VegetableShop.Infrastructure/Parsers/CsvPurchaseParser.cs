@@ -1,6 +1,7 @@
 using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
+using VegetableShop.Domain.Exceptions;
 using VegetableShop.Infrastructure.DTOs;
 
 namespace VegetableShop.Infrastructure.Parsers;
@@ -35,7 +36,7 @@ public class CsvPurchaseParser
 
             if (!int.TryParse(record.Quantity, out var quantity) || quantity <= 0)
             {
-                throw new ArgumentException($"Invalid quantity '{record.Quantity}' for product '{record.Product}'.");
+                throw new InvalidQuantityException(record.Product, record.Quantity);
             }
 
             if (!purchases.TryAdd(record.Product, quantity))

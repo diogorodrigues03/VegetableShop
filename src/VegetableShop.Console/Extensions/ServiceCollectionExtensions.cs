@@ -4,6 +4,7 @@ using VegetableShop.Application.Formatters;
 using VegetableShop.Application.Interfaces;
 using VegetableShop.Application.Services;
 using VegetableShop.Console.Configuration;
+using VegetableShop.Console.Interfaces;
 using VegetableShop.Console.Services;
 using VegetableShop.Domain.Interfaces;
 using VegetableShop.Infrastructure.Configuration;
@@ -38,13 +39,15 @@ namespace VegetableShop.Console.Extensions
             services.AddSingleton<IPurchaseRepository, FilePurchaseRepository>();
 
             // Register application services here
+            services.AddSingleton<IOfferFactory, OfferFactory>();
             services.AddSingleton<IPricingService, PricingService>();
             services.AddSingleton<IOfferConfigurationService, OfferConfigurationService>();
             services.AddTransient<ICheckoutService, CheckoutService>();
+            services.AddSingleton<IExceptionHandler, VegetableShopExceptionHandler>();
             
             services.AddSingleton<IReceiptFormatter, ConsoleReceiptFormatter>();
 
-            // Register main application service
+            // Register the main application service
             services.AddTransient<IVegetableShopApplication, VegetableShopApplication>();
 
             return services;

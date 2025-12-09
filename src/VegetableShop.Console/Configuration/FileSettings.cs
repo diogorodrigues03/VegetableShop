@@ -5,9 +5,9 @@ namespace VegetableShop.Console.Configuration
     /// </summary>
     public class FileSettings
     {
-        public string ProductsFile { get; set; } = string.Empty;
-        public string PurchaseFile { get; set; } = string.Empty;
-        public string ReceiptsDirectory { get; set; } = string.Empty;
-        public string ReceiptOutputFile { get; set; } = string.Empty;
+        public string ProductsFile { get; init; } = string.Empty;
+        public string PurchaseFile { get; init; } = string.Empty;
+        public string ReceiptsDirectory { get; init; } = string.Empty;
+        public string ReceiptOutputFile { get; init; } = string.Empty;
     }
 }

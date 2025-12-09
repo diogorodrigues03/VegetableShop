@@ -1,6 +1,6 @@
 namespace VegetableShop.Application.Constants;
 
-public class FormattingConstants
+public static class FormattingConstants
 {
     public const string Separator = "==========================================";
     public const string LineSeparator = "------------------------------------------";

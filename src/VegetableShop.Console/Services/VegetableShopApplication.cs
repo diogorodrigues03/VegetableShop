@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using VegetableShop.Application.Interfaces;
 using VegetableShop.Console.Configuration;
-using VegetableShop.Domain.Exceptions;
+using VegetableShop.Console.Interfaces;
 using VegetableShop.Domain.Interfaces;
 using VegetableShop.Domain.Utils;
 using VegetableShop.Application.Constants;
@@ -19,15 +19,17 @@ namespace VegetableShop.Console.Services
         IReceiptFormatter receiptFormatter,
         ILogger<VegetableShopApplication> logger,
         IOptions<FileSettings> fileSettings,
-        FileRepositoryConfiguration fileRepositoryConfiguration)
+        FileRepositoryConfiguration fileRepositoryConfiguration,
+        IExceptionHandler exceptionHandler)
         : IVegetableShopApplication
     {
         private readonly ICheckoutService _checkoutService = checkoutService ?? throw new ArgumentNullException(nameof(checkoutService));
         private readonly IPurchaseRepository _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(purchaseRepository));
         private readonly IReceiptFormatter _receiptFormatter = receiptFormatter ?? throw new ArgumentNullException(nameof(receiptFormatter));
         private readonly ILogger<VegetableShopApplication> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        private readonly FileSettings _fileSettings = fileSettings?.Value ?? throw new ArgumentNullException(nameof(fileSettings));
+        private readonly FileSettings _fileSettings = fileSettings.Value ?? throw new ArgumentNullException(nameof(fileSettings));
         private readonly FileRepositoryConfiguration _fileRepositoryConfiguration = fileRepositoryConfiguration ?? throw new ArgumentNullException(nameof(fileRepositoryConfiguration));
+        private readonly IExceptionHandler _exceptionHandler = exceptionHandler ?? throw new ArgumentNullException(nameof(exceptionHandler));
 
         public async Task<ExitCodes> RunAsync(string[] args)
         {
@@ -48,7 +50,7 @@ namespace VegetableShop.Console.Services
                     productsFile = args.Length > 0 ? args[0] : _fileSettings.ProductsFile;
                     purchaseFile = args.Length > 1 ? args[1] : _fileSettings.PurchaseFile;
                 }
-                
+
                 string outputFile = GenerateTimestampedOutputFileName();
 
                 // Update runtime configuration with potentially overridden paths
@@ -93,7 +95,29 @@ namespace VegetableShop.Console.Services
                 string formattedReceipt = _receiptFormatter.Format(receipt);
                 System.Console.WriteLine(formattedReceipt);
 
-                // Save to file if requested
+                await SaveToFile(saveToFile, outputFile, formattedReceipt);
+
+                return ExitCodes.Success;
+            }
+            catch (Exception ex)
+            {
+                return _exceptionHandler.Handle(ex);
+            }
+        }
+
+        private static void DisplayHeader()
+        {
+            System.Console.WriteLine(FormattingConstants.Separator);
+            System.Console.WriteLine(FormattingConstants.VegetableShopHeader);
+            System.Console.WriteLine(FormattingConstants.Separator);
+            System.Console.WriteLine();
+        }
+
+        private async Task SaveToFile(bool saveToFile, string outputFile, string formattedReceipt)
+        {
+            try
+            {
+                // Save to the file if requested
                 if (saveToFile)
                 {
                     var outputDir = Path.GetDirectoryName(outputFile);
@@ -106,65 +130,12 @@ namespace VegetableShop.Console.Services
                     System.Console.WriteLine($"Receipt saved to: {outputFile}");
                     _logger.LogInformation("Receipt saved to: {OutputFile}", outputFile);
                 }
-
-                return ExitCodes.Success;
             }
-            catch (InvalidPurchaseDataException ex)
+            catch (Exception e)
             {
-                _logger.LogError(ex, ex.Message);
-                System.Console.WriteLine();
-                System.Console.WriteLine($"ERROR: {ex.Message}");
-                System.Console.WriteLine("Please check your purchase.csv file.");
-                return ExitCodes.InvalidInputData;
+                _logger.LogError(e, "Error saving receipt to file: {OutputFile}", outputFile);
+                System.Console.WriteLine($"ERROR: Error saving receipt to file: {outputFile}");
             }
-            catch (InvalidProductDataException ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                System.Console.WriteLine();
-                System.Console.WriteLine($"ERROR: {ex.Message}");
-                System.Console.WriteLine("Please check your products.csv file.");
-                return ExitCodes.InvalidInputData;
-            }
-            catch (ProductNotFoundException ex)
-            {
-                _logger.LogError(ex, "Product not found: {ProductName}", ex.ProductName);
-                System.Console.WriteLine();
-                System.Console.WriteLine($"ERROR: Product '{ex.ProductName}' was not found in the catalog.");
-                System.Console.WriteLine("Please check your products.csv file.");
-                return ExitCodes.ProductNotFound;
-            }
-            catch (InvalidPriceException ex)
-            {
-                _logger.LogError(ex, "Invalid price for product: {ProductName}", ex.ProductName);
-                System.Console.WriteLine();
-                System.Console.WriteLine($"ERROR: Invalid price '{ex.PriceValue}' for product '{ex.ProductName}'.");
-                return ExitCodes.InvalidPrice;
-            }
-            catch (FileNotFoundException ex)
-            {
-                _logger.LogError(ex, "File not found");
-                System.Console.WriteLine();
-                System.Console.WriteLine($"ERROR: File not found - {ex.Message}");
-                return ExitCodes.FileNotFound;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical(ex, "Unexpected error occurred");
-                System.Console.WriteLine();
-                System.Console.WriteLine($"UNEXPECTED ERROR: {ex.Message}");
-                System.Console.WriteLine();
-                System.Console.WriteLine("Stack trace:");
-                System.Console.WriteLine(ex.StackTrace);
-                return ExitCodes.UnexpectedError;
-            }
-        }
-
-        private static void DisplayHeader()
-        {
-            System.Console.WriteLine(FormattingConstants.Separator);
-            System.Console.WriteLine(FormattingConstants.VegetableShopHeader);
-            System.Console.WriteLine(FormattingConstants.Separator);
-            System.Console.WriteLine();
         }
 
         private string GenerateTimestampedOutputFileName()
@@ -193,6 +164,7 @@ namespace VegetableShop.Console.Services
         ProductNotFound = 2,
         InvalidPrice = 3,
         InvalidInputData = 4,
+        InvalidQuantity = 5,
         UnexpectedError = 99,
     }
 }
