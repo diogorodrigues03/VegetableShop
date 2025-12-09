@@ -79,6 +79,12 @@ namespace VegetableShop.Console.Services
                 // Save to file if requested
                 if (saveToFile)
                 {
+                    var outputDir = Path.GetDirectoryName(outputFile);
+                    if (!string.IsNullOrEmpty(outputDir))
+                    {
+                        Directory.CreateDirectory(outputDir);
+                    }
+
                     await File.WriteAllTextAsync(outputFile, formattedReceipt);
                     System.Console.WriteLine($"Receipt saved to: {outputFile}");
                     _logger.LogInformation("Receipt saved to: {OutputFile}", outputFile);
@@ -149,9 +155,9 @@ namespace VegetableShop.Console.Services
             var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             var originalFileName = Path.GetFileNameWithoutExtension(_fileSettings.ReceiptOutputFile);
             var extension = Path.GetExtension(_fileSettings.ReceiptOutputFile);
-            var directory = Path.GetDirectoryName(_fileSettings.ReceiptsDirectory);
+            var directory = _fileSettings.ReceiptsDirectory;
 
-            if (string.IsNullOrEmpty(directory))
+            if (string.IsNullOrWhiteSpace(directory))
             {
                 directory = Directory.GetCurrentDirectory();
             }
