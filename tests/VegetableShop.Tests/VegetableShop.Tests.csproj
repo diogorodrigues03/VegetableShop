@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\VegetableShop.Application\VegetableShop.Application.csproj" />
     <ProjectReference Include="..\..\src\VegetableShop.Infrastructure\VegetableShop.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\VegetableShop.Console\VegetableShop.Console.csproj" />
   </ItemGroup>
 
   <ItemGroup>

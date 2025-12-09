@@ -8,9 +8,16 @@ namespace VegetableShop.Tests.Application.Services
     public class OfferConfigurationServiceTests
     {
         [Fact]
+        public void Constructor_ShouldThrowArgumentNullException_WhenFactoryIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => new OfferConfigurationService(null!));
+        }
+
+        [Fact]
         public void GetOffers_ShouldReturnExpectedOffers()
         {
-            var service = new OfferConfigurationService();
+            var factory = new OfferFactory();
+            var service = new OfferConfigurationService(factory);
             var cart = new ShoppingCart();
             var products = new List<Product>
             {
@@ -29,7 +36,8 @@ namespace VegetableShop.Tests.Application.Services
         [Fact]
         public void GetOffers_ShouldThrowArgumentNullException_WhenCartIsNull()
         {
-            var service = new OfferConfigurationService();
+            var factory = new OfferFactory();
+            var service = new OfferConfigurationService(factory);
             var products = new List<Product>();
             ShoppingCart? cart = null;
             
@@ -39,7 +47,8 @@ namespace VegetableShop.Tests.Application.Services
         [Fact]
         public void GetOffers_ShouldThrowArgumentNullException_WhenProductsIsNull()
         {
-            var service = new OfferConfigurationService();
+            var factory = new OfferFactory();
+            var service = new OfferConfigurationService(factory);
             List<Product>? products = null;
             var cart = new ShoppingCart();
             
