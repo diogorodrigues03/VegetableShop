@@ -5,8 +5,8 @@ using VegetableShop.Console.Configuration;
 using VegetableShop.Domain.Exceptions;
 using VegetableShop.Domain.Interfaces;
 using VegetableShop.Domain.Utils;
-using Serilog;
 using VegetableShop.Application.Constants;
+using VegetableShop.Infrastructure.Configuration;
 
 namespace VegetableShop.Console.Services
 {
@@ -18,7 +18,8 @@ namespace VegetableShop.Console.Services
         IPurchaseRepository purchaseRepository,
         IReceiptFormatter receiptFormatter,
         ILogger<VegetableShopApplication> logger,
-        IOptions<FileSettings> fileSettings)
+        IOptions<FileSettings> fileSettings,
+        FileRepositoryConfiguration fileRepositoryConfiguration)
         : IVegetableShopApplication
     {
         private readonly ICheckoutService _checkoutService = checkoutService ?? throw new ArgumentNullException(nameof(checkoutService));
@@ -26,6 +27,7 @@ namespace VegetableShop.Console.Services
         private readonly IReceiptFormatter _receiptFormatter = receiptFormatter ?? throw new ArgumentNullException(nameof(receiptFormatter));
         private readonly ILogger<VegetableShopApplication> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly FileSettings _fileSettings = fileSettings?.Value ?? throw new ArgumentNullException(nameof(fileSettings));
+        private readonly FileRepositoryConfiguration _fileRepositoryConfiguration = fileRepositoryConfiguration ?? throw new ArgumentNullException(nameof(fileRepositoryConfiguration));
 
         public async Task<ExitCodes> RunAsync(string[] args)
         {
@@ -37,6 +39,10 @@ namespace VegetableShop.Console.Services
                 string purchaseFile = args.Length > 1 ? args[1] : _fileSettings.PurchaseFile;
                 bool saveToFile = args.Contains("--save");
                 string outputFile = GenerateTimestampedOutputFileName();
+
+                // Update runtime configuration with potentially overridden paths
+                _fileRepositoryConfiguration.ProductsFilePath = productsFile;
+                _fileRepositoryConfiguration.PurchaseFilePath = purchaseFile;
 
                 _logger.LogInformation("Products file: {ProductsFile}", productsFile);
                 _logger.LogInformation("Purchase file: {PurchaseFile}", purchaseFile);

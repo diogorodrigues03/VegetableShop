@@ -6,6 +6,7 @@ using VegetableShop.Application.Services;
 using VegetableShop.Console.Configuration;
 using VegetableShop.Console.Services;
 using VegetableShop.Domain.Interfaces;
+using VegetableShop.Infrastructure.Configuration;
 using VegetableShop.Infrastructure.Repositories;
 
 namespace VegetableShop.Console.Extensions
@@ -26,11 +27,15 @@ namespace VegetableShop.Console.Extensions
             var fileSettings = configuration.GetSection("FileSettings").Get<FileSettings>() 
                 ?? new FileSettings();
             
-            services.AddSingleton<IProductRepository>(sp => 
-                new FileProductRepository(fileSettings.ProductsFile));
+            // Register Runtime Configuration
+            services.AddSingleton(new FileRepositoryConfiguration 
+            {
+                ProductsFilePath = fileSettings.ProductsFile,
+                PurchaseFilePath = fileSettings.PurchaseFile
+            });
             
-            services.AddSingleton<IPurchaseRepository>(sp => 
-                new FilePurchaseRepository(fileSettings.PurchaseFile));
+            services.AddSingleton<IProductRepository, FileProductRepository>();
+            services.AddSingleton<IPurchaseRepository, FilePurchaseRepository>();
 
             // Register application services here
             services.AddSingleton<IPricingService, PricingService>();
