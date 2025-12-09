@@ -1,4 +1,5 @@
 using VegetableShop.Domain.Entities;
+using VegetableShop.Domain.Exceptions;
 
 namespace VegetableShop.Tests.Domain.Entities;
 
@@ -22,19 +23,19 @@ public class CartItemTests
         }
 
         [Fact]
-        public void Constructor_ZeroQuantity_ThrowsArgumentException()
+        public void Constructor_ZeroQuantity_ThrowsInvalidQuantityException()
         {
             var product = new Product("Tomato", 0.75m);
 
-            Assert.Throws<ArgumentException>(() => new CartItem(product, 0));
+            Assert.Throws<InvalidQuantityException>(() => new CartItem(product, 0));
         }
 
         [Fact]
-        public void Constructor_NegativeQuantity_ThrowsArgumentException()
+        public void Constructor_NegativeQuantity_ThrowsInvalidQuantityException()
         {
             var product = new Product("Tomato", 0.75m);
 
-            Assert.Throws<ArgumentException>(() => new CartItem(product, -1));
+            Assert.Throws<InvalidQuantityException>(() => new CartItem(product, -1));
         }
 
         [Theory]

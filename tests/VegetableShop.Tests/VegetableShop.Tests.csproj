@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="Application\" />
-    <Folder Include="Domain\Offers\" />
     <Folder Include="Infrastructure\Parsers\" />
     <Folder Include="Infrastructure\Repositories\" />
   </ItemGroup>

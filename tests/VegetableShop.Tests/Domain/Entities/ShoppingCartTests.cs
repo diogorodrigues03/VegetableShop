@@ -1,4 +1,5 @@
 using VegetableShop.Domain.Entities;
+using VegetableShop.Domain.Exceptions;
 
 namespace VegetableShop.Tests.Domain.Entities
 {
@@ -33,21 +34,21 @@ namespace VegetableShop.Tests.Domain.Entities
         }
 
         [Fact]
-        public void AddProduct_ZeroQuantity_ThrowsArgumentException()
+        public void AddProduct_ZeroQuantity_ThrowsInvalidQuantityException()
         {
             var cart = new ShoppingCart();
             var product = new Product("Tomato", 0.75m);
 
-            Assert.Throws<ArgumentException>(() => cart.AddProduct(product, 0));
+            Assert.Throws<InvalidQuantityException>(() => cart.AddProduct(product, 0));
         }
 
         [Fact]
-        public void AddProduct_NegativeQuantity_ThrowsArgumentException()
+        public void AddProduct_NegativeQuantity_ThrowsInvalidQuantityException()
         {
             var cart = new ShoppingCart();
             var product = new Product("Tomato", 0.75m);
 
-            Assert.Throws<ArgumentException>(() => cart.AddProduct(product, -1));
+            Assert.Throws<InvalidQuantityException>(() => cart.AddProduct(product, -1));
         }
 
         [Fact]
