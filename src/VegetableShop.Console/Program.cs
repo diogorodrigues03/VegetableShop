@@ -14,6 +14,7 @@ namespace VegetableShop.Console
     {
         private static async Task<int> Main(string[] args)
         {
+            System.Console.OutputEncoding = System.Text.Encoding.UTF8;
             try
             {
                 var host = CreateHostBuilder(args).Build();
