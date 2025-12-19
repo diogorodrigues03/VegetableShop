@@ -1,4 +1,4 @@
-# Vegetable Shop - Checkout System
+# Vegetable Shop - Checkout System (Technical Assignment)
 
 A robust, configurable, and extensible console application built with **.NET 9 (C#)** that simulates a supermarket checkout process. This project demonstrates **Clean Architecture** principles, **SOLID** design, and industry-standard patterns.
 I also created a public project repo [here](https://github.com/diogorodrigues03/VegetableShop) in case you want to take a look.
